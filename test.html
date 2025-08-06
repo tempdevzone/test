@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Link Behavior</title>
+    <script>
+        // Array to store the references of opened tabs
+        let openedTabs = [];
+
+        function openPDF() {
+            const pdfUrl = 'path/to/your.pdf'; // Replace with the actual PDF URL
+
+            if (openedTabs.length < 2) {
+                // If less than 2 tabs have been opened, open a new tab and store its reference
+                const newTab = window.open(pdfUrl, '_blank');
+                if (newTab) {
+                    openedTabs.push(newTab);
+                }
+            } else {
+                // If there are at least 2 tabs, reuse the last opened tab
+                const lastOpenedTab = openedTabs[openedTabs.length - 1];
+                if (lastOpenedTab && !lastOpenedTab.closed) {
+                    lastOpenedTab.location.href = pdfUrl; // Update the URL in the last opened tab
+                    lastOpenedTab.focus(); // Bring the reused tab to the front
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Open PDF Example</h1>
+    <button onclick="openPDF()">Open PDF in New Tab</button>
+</body>
+</html>
