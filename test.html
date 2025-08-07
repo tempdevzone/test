@@ -6,7 +6,8 @@
         // Array to store the references of opened tabs
         let openedTabs = [];
 
-        function openPDF() {
+        function openPDF(event) {
+            event.preventDefault(); 
             const pdfUrl = 'sample.pdf'; // Replace with the actual PDF URL
 
             if (openedTabs.length < 2) {
