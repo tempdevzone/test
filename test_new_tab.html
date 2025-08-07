@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Tab Test</title>
+    <script>
+        // Array to store opened tab references
+        let openedTabs = [];
+
+        function openPDF(event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            const pdfUrl = 'sample.pdf'; // Replace with the actual PDF URL
+
+            // Clean the array by filtering out closed tabs
+            openedTabs = openedTabs.filter(tab => tab && !tab.closed);
+
+            if (openedTabs.length < 2) {
+                // Open a new tab if fewer than 2 tabs are open
+                const newTab = window.open(pdfUrl, '_blank');
+                if (newTab) {
+                    openedTabs.push(newTab);
+                }
+            } else {
+                // Reuse the last opened tab when 2 tabs already exist
+                const lastOpenedTab = openedTabs[openedTabs.length - 1];
+                if (lastOpenedTab && !lastOpenedTab.closed) {
+                    lastOpenedTab.location.href = pdfUrl; // Update the URL in the last opened tab
+                    lastOpenedTab.focus(); // Bring the reused tab to the front
+                } else {
+                    // If for some reason the last tab was closed, open a new tab
+                    const newTab = window.open(pdfUrl, '_blank');
+                    if (newTab) {
+                        openedTabs.push(newTab);
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>PDF Tab Test</h1>
+    <p>
+        Click the link below to test the behavior:
+    </p>
+    <p>
+        - On the <strong>first and second click</strong>, the PDF will open in new tabs.<br>
+        - On the <strong>third or subsequent clicks</strong>, the PDF will reuse the last opened tab (if still open).<br>
+        - If both tabs are closed, it will open a new tab again.<br>
+        - Do <strong>not close the tabs during testing</strong> unless you want to test this fallback behavior.
+    </p>
+    <!-- The link to test the functionality -->
+    <a href="sample.pdf" onclick="openPDF(event)">Open PDF</a>
+</body>
+</html>
