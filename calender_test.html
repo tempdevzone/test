@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar Popup</title>
+  <style>
+    #selected-date {
+      font-size: 16px;
+      padding: 10px;
+      width: 200px;
+    }
+    #open-calendar {
+      font-size: 16px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select a Date</h1>
+  <input type="text" id="selected-date" placeholder="Selected Date" readonly>
+  <button id="open-calendar">Open Calendar</button>
+
+  <script>
+    document.getElementById('open-calendar').addEventListener('click', () => {
+      // Open a popup window with `about:blank`
+      const popup = window.open(
+        'about:blank',
+        '_blank',
+        'width=400,height=300,left=100,top=100,resizable=no,scrollbars=no,toolbar=no,location=no,status=no,menubar=no'
+      );
+
+      if (popup) {
+        // Fetch and load the content from `popup.html`
+        fetch('popup.html')
+          .then(response => response.text())
+          .then(html => {
+            popup.document.open();
+            popup.document.write(html);
+            popup.document.close();
+          })
+          .catch(err => {
+            console.error('Failed to load popup HTML:', err);
+            popup.document.write('<p>Error loading popup content.</p>');
+            popup.document.close();
+          });
+      } else {
+        alert("Popup blocked. Please enable popups in your browser settings.");
+      }
+    });
+
+    // Listen for messages from the popup window
+    window.addEventListener('message', (event) => {
+      if (event.data.selectedDate) {
+        document.getElementById('selected-date').value = event.data.selectedDate;
+      }
+    });
+  </script>
+</body>
+</html>
