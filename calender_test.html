@@ -3,91 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Legacy Calendar Popup</title>
+  <title>Parent Page with Popup</title>
 </head>
 <body>
   <h1>Parent Page</h1>
-
-  <!-- Parent input field to display the selected date -->
-  <label for="selected-date">Selected Date:</label>
-  <input type="text" id="selected-date" readonly>
-
-  <!-- Button to open the popup -->
   <button id="open-popup">Open Calendar Popup</button>
 
   <script>
-    // Preferences for the popup window
     const winPrefs = "width=400,height=300,resizable=no,scrollbars=no,toolbar=no,location=no,status=no,menubar=no";
 
-    // Add event listener to the button
     document.getElementById("open-popup").addEventListener("click", function () {
-      // Check if the popup already exists and isn't closed
+      // Check if popup already exists and reopen
       if (top.newWin && !top.newWin.closed) {
-        // Attempt to update the popup's content using legacy `javascript:` URL
+        // Attempt to update the content using `javascript:` URL
         top.newWin.location = "javascript:parent.opener.injectCalendar()";
-        top.newWin.focus(); // Focus on the popup
+        top.newWin.focus();
         return false;
       }
 
-      // Open a new popup with `about:blank` URL and dynamically inject content
-      top.newWin = window.open("about:blank", "calWin", winPrefs);
-
-      // Once opened, invoke the injection logic
-      top.newWin.location = "javascript:parent.opener.injectCalendar()";
-      top.newWin.focus(); // Bring the popup into focus
+      // Open a new popup with `javascript:` URL and attempt calendar injection
+      top.newWin = window.open("javascript:parent.opener.injectCalendar()", "calWin", winPrefs);
+      top.newWin.focus();
     });
 
-    // Function to inject the calendar into the popup dynamically
+    // Function to inject calendar content into the popup
     window.injectCalendar = function () {
-      const popupDocument = top.newWin.document;
+      const popupDocument = window.newWin.document;
       popupDocument.open();
       popupDocument.write(`
         <!DOCTYPE html>
         <html lang="en">
         <head>
-          <title>Popup Calendar</title>
+          <title>Calendar Popup</title>
           <style>
             body {
+              margin: 0;
               font-family: Arial, sans-serif;
               display: flex;
-              flex-direction: column;
               justify-content: center;
               align-items: center;
               height: 100vh;
-              margin: 0;
             }
             #calendar {
-              font-size: 16px;
-              padding: 10px;
+              font-size: 20px;
             }
           </style>
         </head>
         <body>
           <h1>Select a Date</h1>
           <input type="date" id="calendar">
-          <script>
-            // Logic to send selected date back to parent
-            document.getElementById('calendar').addEventListener('change', function(event) {
-              const selectedDate = event.target.value;
-              // Send the date to the parent window
-              window.opener.postMessage({ selectedDate }, '*');
-              // Close the popup window
-              window.close();
-            });
-          </script>
         </body>
         </html>
       `);
-      popupDocument.close(); // Finalize popup document
+      popupDocument.close();
     };
-
-    // Listen for the selected date message from the popup
-    window.addEventListener("message", function (event) {
-      if (event.data.selectedDate) {
-        // Reflect the selected date in the parent input field
-        document.getElementById("selected-date").value = event.data.selectedDate;
-      }
-    });
   </script>
 </body>
 </html>
