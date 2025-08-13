@@ -3,60 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parent Page with Popup</title>
+  <title>Legacy Calendar Popup</title>
 </head>
 <body>
   <h1>Parent Page</h1>
-  <button id="open-popup">Open Calendar Popup</button>
+
+  <!-- Parent Input Field -->
+  <label for="dateField">Select Date:</label>
+  <input type="text" id="dateField" readonly>
+  <button onclick="showCalendar('dateField', 100, 200)">Open Calendar</button>
 
   <script>
-    const winPrefs = "width=400,height=300,resizable=no,scrollbars=no,toolbar=no,location=no,status=no,menubar=no";
+    // Placeholder documents for the popup frames
+    const calDocTop = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head><title>Top Frame</title></head>
+      <body style="background: lightgray;"><h3>Month & Year Picker</h3></body>
+      </html>
+    `;
+    const calDocBottom = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head><title>Bottom Frame</title></head>
+      <body><h3>Date Picker</h3></body>
+      </html>
+    `;
 
-    document.getElementById("open-popup").addEventListener("click", function () {
-      // Check if popup already exists and reopen
-      if (top.newWin && !top.newWin.closed) {
-        // Attempt to update the content using `javascript:` URL
-        top.newWin.location = "javascript:parent.opener.injectCalendar()";
-        top.newWin.focus();
-        return false;
+    // The frameset that uses the sources `javascript:parent.opener.calDocTop` & `calDocBottom`
+    let calDocFrameset = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head><title>BPCL Calendar</title></head>
+      <frameset rows="70,*" frameborder="0">
+        <frame name="topCalFrame" src="javascript:parent.opener.calDocTop" scrolling="no">
+        <frame name="bottomCalFrame" src="javascript:parent.opener.calDocBottom" scrolling="no">
+      </frameset>
+      </html>
+    `;
+
+    function showCalendar(dateField, TopVal, LeftVal) {
+      // Popup preferences
+      const Prefs = `resizable=no,dependent=yes,titlebar=yes,width=230,height=230,left=${LeftVal},top=${TopVal}`;
+      winPrefs = Prefs;
+
+      // Set date field logic (placeholder function)
+      function setDateField(field) {
+        console.log(`Set date logic for: ${field}`);
+      }
+      setDateField(dateField);
+
+      // Check for existing popup
+      if (top.newWin) {
+        if (!top.newWin.closed) {
+          top.newWin.location = "javascript:parent.opener.calDocFrameset";
+          top.newWin.focus();
+          return false;
+        }
       }
 
-      // Open a new popup with `javascript:` URL and attempt calendar injection
-      top.newWin = window.open("javascript:parent.opener.injectCalendar()", "calWin", winPrefs);
+      // Open new popup with legacy `javascript:` URL
+      top.newWin = window.open("javascript:parent.opener.calDocFrameset", "calWin", winPrefs);
       top.newWin.focus();
-    });
-
-    // Function to inject calendar content into the popup
-    window.injectCalendar = function () {
-      const popupDocument = window.newWin.document;
-      popupDocument.open();
-      popupDocument.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <title>Calendar Popup</title>
-          <style>
-            body {
-              margin: 0;
-              font-family: Arial, sans-serif;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-            }
-            #calendar {
-              font-size: 20px;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>Select a Date</h1>
-          <input type="date" id="calendar">
-        </body>
-        </html>
-      `);
-      popupDocument.close();
-    };
+    }
   </script>
 </body>
 </html>
