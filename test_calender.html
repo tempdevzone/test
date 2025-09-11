@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Calendar</title>
+    <!-- This script contains the showCalendar function from JScript1.js -->
+    <script src="JScript1.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <h2>Calendar Test Page</h2>
+    <p>Click the button to show the calendar and select a date.</p>
+
+    <form name="testForm">
+        <label for="calendarInput">Date:</label>
+        <input type="text" id="calendarInput" name="calendarInput" readonly="readonly">
+
+        <!-- This button calls the showCalendar function from JScript1.js -->
+        <button type="button" onclick="showCalendar(document.getElementById('calendarInput'), 200, 200)">Show Calendar</button>
+    </form>
+
+</body>
+</html>
