@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Out-of-Process Printing Test</title>
+    <style>
+        body { font-family: sans-serif; }
+        iframe { width: 400px; height: 300px; border: 2px solid green; }
+    </style>
+</head>
+<body>
+    <h1>Out-of-Process Printing Test</h1>
+    <p>This test verifies that content from a cross-site iframe is correctly rendered for printing.</p>
+
+    <!-- The iframe uses a different origin to force an out-of-process iframe (OOPIF). -->
+    <iframe src="https://example.com/simple-page.html" id="test-iframe"></iframe>
+
+    <script>
+        window.addEventListener('load', () => {
+            const iframe = document.getElementById('test-iframe');
+
+            iframe.onload = () => {
+                // Wait for the iframe to load before initiating printing.
+                window.print();
+            };
+        });
+    </script>
+</body>
+</html>
