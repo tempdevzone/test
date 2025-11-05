@@ -56,15 +56,15 @@ function printPdfIframeInNewWindow() {
     const blobUrl = generateAndPrintPDF();
 
     const printWindow = window.open(blobUrl, '_blank');
-    if (printWindow) {
-        printWindow.addEventListener('load', function () {
-            try {
-                printWindow.print();
-            } catch (e) {
-                console.error('Print Failed', e);
-            }
-        }, true);
-    }
+    // if (printWindow) {
+    //     printWindow.addEventListener('load', function () {
+    //         try {
+    //             printWindow.print();
+    //         } catch (e) {
+    //             console.error('Print Failed', e);
+    //         }
+    //     }, true);
+    // }
 }
 
 function printPdfIframeBlobInSameWindow() {
