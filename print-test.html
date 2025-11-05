@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jsPDF - Create PDFs with HTML5 JavaScript Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- Link to External JavaScript -->
+    <script src="app.js" defer></script>
+    <!-- The `defer` attribute ensures the JS loads after the HTML DOM -->
+</head>
+<body>
+    <h2 style="color:green">Generate PDF file using jsPDF library</h2>
+
+    <button type="button" onclick="printPdfIframeInNewWindow()">Print the pdf iframe in a new window!</button>
+    <br><br>
+    <button type="button" onclick="printPdfIframeBlobInSameWindow()">Print the pdf iframe blob in same window!</button>
+    <br><br>
+    <button type="button" onclick="printPdfIframeInSameWindowPost()">Print the pdf iframe in same window by posting!</button>
+    <br><br>
+    <button type="button" onclick="printPdfIframeFileInSameWindow()">Print the pdf iframe file in same window </button>
+</body>
+</html>
