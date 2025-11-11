@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+    <title>Print iframe content</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+  
+
+<body>
+
+    <h1>Print PDF from Iframe Test</h1>
+
+    <p>Test Printing PDF from Iframe Functionality</p>
+
+    <iframe id="ipdf" src="../assets/PDF_With_Links.pdf" width="800" height="600" style="border: 4px solid lightblue;"></iframe>
+
+  <iframe id="ipdf" src="../assets/PDF_With_Links.pdf#toolbar=1&navpanes=0" width="800" height="600" style="border: 4px solid lightblue;"></iframe>
+
+    <p></p>
+
+    <button style="color:white;
+                   background-color: blue;
+                   font-weight: bold;">Click to Print Nested PDF</button>
+
+
+
+   
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $("button").click(function(){
+
+        var myIframe = document.getElementById("ipdf").contentWindow;
+
+            myIframe.focus();
+
+            myIframe.print();
+
+            return false;
+
+    });
+    });
+
+</script>
+
+</body></html>
