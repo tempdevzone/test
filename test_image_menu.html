@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Context Menu Behavior Examples</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .example-section {
+            margin-bottom: 40px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .example-section h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .image-display {
+            width: 200px;
+            height: 150px;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* For background image scaling */
+        }
+        #background-image-div {
+            background-image: url('https://via.placeholder.com/200x150/FF0000/FFFFFF?text=CSS+BG');
+            background-size: cover;
+            background-position: center;
+        }
+        #inline-image {
+            max-width: 100%;
+            max-height: 100%;
+            display: block; /* Remove extra space below image */
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Why "Save image as..." is disabled but "Copy image" works</h1>
+    <p>Right-click on each of the images below to observe the context menu behavior.</p>
+
+    <div class="example-section">
+        <h2>1. CSS Background Images</h2>
+        <p>If the picture is applied as a background style (<code>background-image</code>), the browser doesn’t expose it as a file element. You can copy the rendered pixels but not save the source directly.</p>
+        <div id="background-image-div" class="image-display"></div>
+    </div>
+
+    <div class="example-section">
+        <h2>2. Canvas-Drawn Images</h2>
+        <p>When an image is drawn onto an HTML5 <code>&lt;canvas&gt;</code>, the browser only sees the canvas output. "Copy image" grabs the rendered bitmap, but "Save image as..." isn’t available because there’s no direct file for the drawn content.</p>
+        <canvas id="canvas-image" width="200" height="150"></canvas>
+    </div>
+
+    <div class="example-section">
+        <h2>3. Inline Encoded Images (Base64 or Data URI)</h2>
+        <p>If the image is embedded inline (e.g., using a <code>data:</code> URI in the <code>src</code> attribute), Chrome may allow copying the rendered bitmap but not saving it as a separate file, as it's not a distinct file resource.</p>
+        <div class="image-display">
+            <img id="inline-image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAC8CAYAAADiE6O/AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiEAABYhEgXy/z8AAAB9SURBVHhe7cEBAQAAAgqD1ZvwxruhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDnBp4AAR+Yp7UAAAAASUVORK5CYII=" alt="Inline Base64 Image">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Canvas-Drawn Image ---
+            const canvas = document.getElementById('canvas-image');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            };
+            // Using a data URI for the canvas image for self-containment
+            img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAC8CAYAAADiE6O/AAAAAXNSR0IArs4c6QAAAARnQUBAACxjwv8YQUAAAAJcEhZcwAAFiEAABYhEgXy/z8AAAB9SURBVHhe7cEBAQAAAgqD1ZvwxruhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDnBp4AAR+Yp7UAAAAASUVORK5CYII='; // Placeholder image
+        });
+    </script>
+
+</body>
+</html>
