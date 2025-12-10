@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mock PDF Viewer</title>
+    <link rel="stylesheet" type="text/css" href="mock_modal.css">
+</head>
+<body>
+
+<h1>Mock PMEGP e-Tracking Page</h1>
+<p>Click the button below to open the PDF in a modal pop-up, just like in the original page.</p>
+
+<!-- This button will open the PDF in a modal -->
+<button onclick="openPdfInModal('sample.pdf')">View Application PDF</button>
+
+<!-- ================================================== -->
+<!--      MODAL POP-UP ELEMENTS (from original page)    -->
+<!-- ================================================== -->
+
+<!-- The overlay div that covers the page -->
+<div id="bailwal_div_overlay" style="display: none;"></div>
+
+<!-- The parent container for the modal window -->
+<div id="bailwal_div_frame_parent" style="display: none;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <!-- Modal Title Bar -->
+        <tr id="bailwal_tr_title">
+            <td align="left"><span id="bailwal_span_title"></span></td>
+            <td align="right"><span id="bailwal_img_overlay_close" onclick="modalWin.HideModalPopUp();">X</span></td>
+        </tr>
+        <!-- Iframe container -->
+        <tr>
+            <td colspan="2" align="center" id="bailwal_td_overlay">
+                <iframe name="bailwal_overlay_frame" id="bailwal_overlay_frame" frameborder="0" scrolling="auto"></iframe>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script src="mock_modal.js"></script>
+
+</body>
+</html>

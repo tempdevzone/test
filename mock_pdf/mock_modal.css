@@ -1,0 +1,50 @@
+body {
+    font-family: sans-serif;
+}
+
+/* The dark, semi-transparent background overlay */
+#bailwal_div_overlay {
+    position: fixed; /* Use fixed to cover the whole viewport */
+    z-index: 10;
+    background-color: black;
+    opacity: 0.7;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* The main modal window container */
+#bailwal_div_frame_parent {
+    position: fixed; /* Use fixed to stay in place when scrolling */
+    z-index: 12;
+    background-color: white;
+    border: 1px solid #555;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    /* Centering the modal */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* The title bar of the modal */
+#bailwal_tr_title {
+    background-color: gray;
+    color: white;
+    height: 30px;
+    font-size: 14pt;
+    padding: 0 10px;
+}
+
+/* The 'X' close button */
+#bailwal_img_overlay_close {
+    cursor: pointer;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+/* The iframe that will hold the PDF */
+#bailwal_overlay_frame {
+    height: 100%;
+    width: 100%;
+}
