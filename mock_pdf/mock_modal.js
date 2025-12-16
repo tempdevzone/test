@@ -53,3 +53,39 @@ var modalWin = new CreateModalPopUpObject();
 function openPdfInModal(pdfPath) {
     modalWin.ShowURL(pdfPath, 600, 850, 'Applicant Data View');
 }
+
+// ... (previous code remains the same) ...
+
+function openPdfInModalNonPdf(htmlPath) { // Renamed for clarity as we're treating it as HTML
+    // Show loading state initially
+    modalWin.ShowURL('about:blank', 600, 850, 'Loading HTML Content...');
+
+    fetch(htmlPath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.blob(); // Get the response as a Blob
+        })
+        .then(htmlBlob => {
+            // Create a new Blob explicitly setting the Content-Type to text/html
+            const typedHtmlBlob = new Blob([htmlBlob], { type: 'text/html' }); // <-- THIS IS THE CHANGE
+            
+            // Create an Object URL for the Blob
+            const objectURL = URL.createObjectURL(typedHtmlBlob);
+            
+            // Store the objectURL to revoke later
+            modalWin.currentObjectURL = objectURL; // Add this property to modalWin instance
+
+            // Now, set the iframe's src to the Object URL
+            modalWin.ShowURL(objectURL, 600, 850, 'HTML Content View');
+        })
+        .catch(error => {
+            console.error('Error loading HTML:', error);
+            // Display an error message in the modal
+            modalWin.ShowURL(
+                `data:text/html;charset=utf-8,<p style="padding: 20px; color:red;">Error loading HTML: ${error.message}. Please try again.</p>`,
+                600, 850, 'Error Loading HTML'
+            );
+        });
+}
