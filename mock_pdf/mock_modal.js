@@ -51,7 +51,8 @@ var modalWin = new CreateModalPopUpObject();
 
 // Wrapper function to call the modal with predefined settings
 function openPdfInModal(pdfPath) {
-    modalWin.ShowURL(pdfPath, 600, 850, 'Applicant Data View');
+    const newPdfPath = pdfPath + '?t=' + new Date().getTime();
+    modalWin.ShowURL(newPdfPath, 600, 850, 'Applicant Data View');
 }
 
 // ... (previous code remains the same) ...
